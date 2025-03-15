@@ -75,19 +75,19 @@ public class Main {
         }
 
         board = new Board(spaces);
-        System.out.println("O jogo está pronto para começar");
+        System.out.println("Está tudo pronto para começar");
     }
 
 
     private static void inputNumber() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado!");
             return;
         }
 
-        System.out.println("Informe a coluna que em que o número será inserido");
+        System.out.println("Informe a coluna que o número será inserido");
         var col = runUntilGetValidNumber(0, 8);
-        System.out.println("Informe a linha que em que o número será inserido");
+        System.out.println("Informe a linha que o número será inserido");
         var row = runUntilGetValidNumber(0, 8);
         System.out.printf("Informe o número que vai entrar na posição [%s,%s]\n", col, row);
         var value = runUntilGetValidNumber(1, 9);
@@ -98,7 +98,7 @@ public class Main {
 
     private static void removeNumber() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado!");
             return;
         }
 
@@ -113,7 +113,7 @@ public class Main {
 
     private static void showCurrentGame() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado!");
             return;
         }
 
@@ -130,7 +130,7 @@ public class Main {
 
     private static void showGameStatus() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado!");
             return;
         }
 
@@ -144,11 +144,11 @@ public class Main {
 
     private static void clearGame() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado.");
             return;
         }
 
-        System.out.println("Tem certeza que deseja limpar seu jogo e perder todo seu progresso?");
+        System.out.println("Tem certeza que deseja limpar seu jogo e perder todo seu progresso?!");
         var confirm = scanner.next();
         while (!confirm.equalsIgnoreCase("sim") && !confirm.equalsIgnoreCase("não")){
             System.out.println("Informe 'sim' ou 'não'");
@@ -162,16 +162,16 @@ public class Main {
 
     private static void finishGame() {
         if (isNull(board)){
-            System.out.println("O jogo ainda não foi iniciado iniciado");
+            System.out.println("O jogo ainda não foi iniciado!");
             return;
         }
 
         if (board.gameIsFinished()){
-            System.out.println("Parabéns você concluiu o jogo");
+            System.out.println("Parabéns você concluiu o jogo!");
             showCurrentGame();
             board = null;
         } else if (board.hasErrors()) {
-            System.out.println("Seu jogo conté, erros, verifique seu board e ajuste-o");
+            System.out.println("Seu jogo contém erros, verifique seu board e ajuste-o");
         } else {
             System.out.println("Você ainda precisa preenhcer algum espaço");
         }
