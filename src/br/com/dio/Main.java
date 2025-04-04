@@ -3,10 +3,7 @@ package br.com.dio;
 import br.com.dio.model.Board;
 import br.com.dio.model.Space;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static br.com.dio.util.BoardTemplate.BOARD_TEMPLATE;
@@ -17,8 +14,7 @@ import static java.util.stream.Collectors.toMap;
 public class Main {
 
     private final static Scanner scanner = new Scanner(System.in);
-
-    private static Board board;
+    private static Optional<Board> board = Optional.empty();
 
     private final static int BOARD_LIMIT = 9;
 
@@ -56,8 +52,9 @@ public class Main {
         }
     }
 
+
     private static void startGame(final Map<String, String> positions) {
-        if (nonNull(board)){
+        if (board.isPresent()){
             System.out.println("O jogo já foi iniciado");
             return;
         }
@@ -74,13 +71,13 @@ public class Main {
             }
         }
 
-        board = new Board(spaces);
+        board = Optional.of(new Board(spaces));
         System.out.println("O jogo está pronto para começar");
     }
 
 
     private static void inputNumber() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
@@ -91,36 +88,35 @@ public class Main {
         var row = runUntilGetValidNumber(0, 8);
         System.out.printf("Informe o número que vai entrar na posição [%s,%s]\n", col, row);
         var value = runUntilGetValidNumber(1, 9);
-        if (!board.changeValue(col, row, value)){
+        if (!board.map(Board::hasErrors).orElse(false)){
             System.out.printf("A posição [%s,%s] tem um valor fixo\n", col, row);
         }
     }
 
     private static void removeNumber() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
-
-        System.out.println("Informe a coluna que em que o número será inserido");
-        var col = runUntilGetValidNumber(0, 8);
-        System.out.println("Informe a linha que em que o número será inserido");
-        var row = runUntilGetValidNumber(0, 8);
-        if (!board.clearValue(col, row)){
+        var col = getBoardPosition("coluna");
+        var row = getBoardPosition("linha");
+        if (!board.map(Board::hasErrors).orElse(false)){
             System.out.printf("A posição [%s,%s] tem um valor fixo\n", col, row);
         }
     }
 
     private static void showCurrentGame() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
 
+        Board currentBoard = board.get();
+
         var args = new Object[81];
         var argPos = 0;
         for (int i = 0; i < BOARD_LIMIT; i++) {
-            for (var col: board.getSpaces()){
+            for (var col: currentBoard.getSpaces()){
                 args[argPos ++] = " " + ((isNull(col.get(i).getActual())) ? " " : col.get(i).getActual());
             }
         }
@@ -129,13 +125,14 @@ public class Main {
     }
 
     private static void showGameStatus() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
+        Board currentBoard = board.get();  // Obtém o Board dentro do Optional
 
-        System.out.printf("O jogo atualmente se encontra no status %s\n", board.getStatus().getLabel());
-        if(board.hasErrors()){
+        System.out.printf("O jogo atualmente se encontra no status %s\n", currentBoard.getStatus().getLabel());
+        if(board.map(Board::hasErrors).orElse(false)){
             System.out.println("O jogo contém erros");
         } else {
             System.out.println("O jogo não contém erros");
@@ -143,7 +140,7 @@ public class Main {
     }
 
     private static void clearGame() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
@@ -156,21 +153,21 @@ public class Main {
         }
 
         if(confirm.equalsIgnoreCase("sim")){
-            board.reset();
+            board.ifPresent(Board::reset);
         }
     }
 
     private static void finishGame() {
-        if (isNull(board)){
+        if (!board.isPresent()){
             System.out.println("O jogo ainda não foi iniciado iniciado");
             return;
         }
 
-        if (board.gameIsFinished()){
+        if (board.map(Board::gameIsFinished).orElse(false)){
             System.out.println("Parabéns você concluiu o jogo");
             showCurrentGame();
             board = null;
-        } else if (board.hasErrors()) {
+        } else if (board.map(Board::hasErrors).orElse(false)) {
             System.out.println("Seu jogo conté, erros, verifique seu board e ajuste-o");
         } else {
             System.out.println("Você ainda precisa preenhcer algum espaço");
@@ -178,13 +175,27 @@ public class Main {
     }
 
 
-    private static int runUntilGetValidNumber(final int min, final int max){
-        var current = scanner.nextInt();
-        while (current < min || current > max){
-            System.out.printf("Informe um número entre %s e %s\n", min, max);
-            current = scanner.nextInt();
+    private static int getBoardPosition(String dimension) {
+        System.out.printf("Informe a %s (0 a 8):\n", dimension);
+        return runUntilGetValidNumber(0, 8);
+    }
+
+
+    private static int runUntilGetValidNumber(final int min, final int max) {
+        int current;
+        while (true) {
+            try {
+                current = scanner.nextInt();
+                if (current >= min && current <= max) {
+                    return current;
+                } else {
+                    System.out.printf("Informe um número entre %s e %s\n", min, max);
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada inválida! Por favor, informe um número.");
+                scanner.next();
+            }
         }
-        return current;
     }
 
 }
