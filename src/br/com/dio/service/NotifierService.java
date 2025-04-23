@@ -18,7 +18,7 @@ public class NotifierService {
         selectedListeners.add(listener);
     }
 
-    public void notify(final EventEnum eventType){
+    public void notify(final EventEnum eventType) {
         listeners.get(eventType).forEach(l -> l.update(eventType));
     }
 

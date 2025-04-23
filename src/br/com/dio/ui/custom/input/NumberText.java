@@ -27,7 +27,7 @@ public class NumberText extends JTextField implements EventListener {
         this.setHorizontalAlignment(CENTER);
         this.setDocument(new NumberTextLimit());
         this.setEnabled(!space.isFixed());
-        if (space.isFixed()){
+        if (space.isFixed()) {
             this.setText(space.getActual().toString());
         }
         this.getDocument().addDocumentListener(new DocumentListener() {
@@ -47,8 +47,8 @@ public class NumberText extends JTextField implements EventListener {
                 changeSpace();
             }
 
-            private void changeSpace(){
-                if (getText().isEmpty()){
+            private void changeSpace() {
+                if (getText().isEmpty()) {
                     space.clearSpace();
                     return;
                 }
@@ -60,8 +60,18 @@ public class NumberText extends JTextField implements EventListener {
 
     @Override
     public void update(final EventEnum eventType) {
-        if (eventType.equals(CLEAR_SPACE) && (this.isEnabled())){
-            this.setText("");
+        if (eventType.equals(CLEAR_SPACE)) {
+            if (space.isFixed()) {
+                this.setText(String.valueOf(space.getExpected())); // Restaura valores fixos
+                this.setEnabled(false); // Trava os campos fixos
+            } else {
+                this.setText(""); // Limpa os campos editáveis
+                this.setEnabled(true); // Reativa os campos editáveis
+            }
         }
+    }
+
+    public Space getSpace() {
+        return space;
     }
 }
