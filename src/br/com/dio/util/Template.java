@@ -1,8 +1,21 @@
 package br.com.dio.util;
 
-public final class BoardTemplate {
+public final class Template {
 
-    private BoardTemplate() {}
+    private Template() {}
+
+    public final static String MENU_TEMPLATE = 
+            """
+            Selecione uma das opções a seguir
+                    1 - Iniciar um novo Jogo
+                    2 - Colocar um novo número
+                    3 - Remover um número
+                    4 - Visualizar jogo atual
+                    5 - Verificar status do jogo
+                    6 - limpar jogo
+                    7 - Finalizar jogo
+                    8 - Sair
+            """;
 
     public final static String BOARD_TEMPLATE =
             """
