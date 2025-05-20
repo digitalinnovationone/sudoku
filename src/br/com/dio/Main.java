@@ -66,9 +66,19 @@ public class Main {
         for (int i = 0; i < BOARD_LIMIT; i++) {
             spaces.add(new ArrayList<>());
             for (int j = 0; j < BOARD_LIMIT; j++) {
-                var positionConfig = positions.get("%s,%s".formatted(i, j));
-                var expected = Integer.parseInt(positionConfig.split(",")[0]);
-                var fixed = Boolean.parseBoolean(positionConfig.split(",")[1]);
+                String positionKey = "%s,%s".formatted(i, j);
+                var positionConfig = positions.get(positionKey);
+
+                // Handle the case when positionConfig is null
+                int expected = 0;
+                boolean fixed = false;
+
+                if (positionConfig != null) {
+                    String[] configParts = positionConfig.split(",");
+                    expected = Integer.parseInt(configParts[0]);
+                    fixed = Boolean.parseBoolean(configParts[1]);
+                }
+
                 var currentSpace = new Space(expected, fixed);
                 spaces.get(i).add(currentSpace);
             }
