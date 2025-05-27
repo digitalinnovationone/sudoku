@@ -17,6 +17,10 @@ public class Board {
         this.spaces = spaces;
     }
 
+    public static Board load(String name) {
+        return null;
+    }
+
     public List<List<Space>> getSpaces() {
         return spaces;
     }
@@ -66,4 +70,7 @@ public class Board {
         return !hasErrors() && getStatus().equals(COMPLETE);
     }
 
+    public void save(String name) {
+
+    }
 }

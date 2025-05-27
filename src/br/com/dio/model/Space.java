@@ -3,14 +3,14 @@ package br.com.dio.model;
 public class Space {
 
     private Integer actual;
-    private final int expected;
-    private final boolean fixed;
+    private Integer expected;
+    private boolean fixed;
 
 
-    public Space(final int expected, final boolean fixed) {
+    public Space(final Integer expected, final boolean fixed) {
         this.expected = expected;
         this.fixed = fixed;
-        if (fixed){
+        if (fixed && expected != null){
             actual = expected;
         }
     }
@@ -34,5 +34,15 @@ public class Space {
 
     public boolean isFixed() {
         return fixed;
+    }
+
+    public void setExpected(int value) {
+        this.expected = value;
+
+    }
+
+    public void setFixed(boolean b) {
+        this.fixed = b;
+
     }
 }
