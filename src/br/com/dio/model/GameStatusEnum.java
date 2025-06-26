@@ -1,14 +1,17 @@
 package br.com.dio.model;
 
+/**
+ * Representa o status atual de um jogo de Sudoku.
+ */
 public enum GameStatusEnum {
 
     NON_STARTED("não iniciado"),
     INCOMPLETE("incompleto"),
     COMPLETE("completo");
 
-    private String label;
+    private final String label;
 
-    GameStatusEnum(final String label){
+    GameStatusEnum(final String label) {
         this.label = label;
     }
 
@@ -16,4 +19,8 @@ public enum GameStatusEnum {
         return label;
     }
 
+    @Override
+    public String toString() {
+        return label;
+    }
 }

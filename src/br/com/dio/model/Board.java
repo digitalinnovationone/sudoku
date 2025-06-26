@@ -1,69 +1,107 @@
 package br.com.dio.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static br.com.dio.model.GameStatusEnum.COMPLETE;
-import static br.com.dio.model.GameStatusEnum.INCOMPLETE;
-import static br.com.dio.model.GameStatusEnum.NON_STARTED;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
+import static br.com.dio.model.GameStatusEnum.*;
 
 public class Board {
 
     private final List<List<Space>> spaces;
 
+    /**
+     * Construtor do tabuleiro com cópia defensiva das linhas.
+     */
     public Board(final List<List<Space>> spaces) {
-        this.spaces = spaces;
+        this.spaces = spaces.stream()
+                .map(ArrayList::new) // cria cópia de cada linha
+                .collect(Collectors.toList()); // compatível com Java 8
     }
 
     public List<List<Space>> getSpaces() {
         return spaces;
     }
 
-    public GameStatusEnum getStatus(){
-        if (spaces.stream().flatMap(Collection::stream).noneMatch(s -> !s.isFixed() && nonNull(s.getActual()))){
-            return NON_STARTED;
-        }
+    /**
+     * Retorna o status atual do tabuleiro: não iniciado, incompleto ou completo.
+     */
+    public GameStatusEnum getStatus() {
+        boolean anyFilled = spaces.stream()
+                .flatMap(Collection::stream)
+                .anyMatch(s -> !s.isFixed() && s.getValue() != null);
 
-        return spaces.stream().flatMap(Collection::stream).anyMatch(s -> isNull(s.getActual())) ? INCOMPLETE : COMPLETE;
+        if (!anyFilled) return NON_STARTED;
+
+        boolean anyEmpty = spaces.stream()
+                .flatMap(Collection::stream)
+                .anyMatch(s -> s.getValue() == null);
+
+        return anyEmpty ? INCOMPLETE : COMPLETE;
     }
 
-    public boolean hasErrors(){
-        if(getStatus() == NON_STARTED){
-            return false;
+    /**
+     * Valida se uma jogada é permitida no tabuleiro (respeitando regras do Sudoku).
+     */
+    public boolean isValidMove(int row, int col, Integer value) {
+        if (value == null || value < 1 || value > 9) return false;
+        if (spaces.get(row).get(col).isFixed()) return false;
+
+        // Verifica se o número já está na linha
+        for (int c = 0; c < 9; c++) {
+            if (c != col && value.equals(spaces.get(row).get(c).getValue())) {
+                return false;
+            }
         }
 
-        return spaces.stream().flatMap(Collection::stream)
-                .anyMatch(s -> nonNull(s.getActual()) && !s.getActual().equals(s.getExpected()));
-    }
-
-    public boolean changeValue(final int col, final int row, final int value){
-        var space = spaces.get(col).get(row);
-        if (space.isFixed()){
-            return false;
+        // Verifica se o número já está na coluna
+        for (int r = 0; r < 9; r++) {
+            if (r != row && value.equals(spaces.get(r).get(col).getValue())) {
+                return false;
+            }
         }
 
-        space.setActual(value);
+        // Verifica se o número já está no bloco 3x3
+        int boxRowStart = (row / 3) * 3;
+        int boxColStart = (col / 3) * 3;
+
+        for (int r = boxRowStart; r < boxRowStart + 3; r++) {
+            for (int c = boxColStart; c < boxColStart + 3; c++) {
+                if ((r != row || c != col) && value.equals(spaces.get(r).get(c).getValue())) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
-    public boolean clearValue(final int col, final int row){
-        var space = spaces.get(col).get(row);
-        if (space.isFixed()){
-            return false;
+    /**
+     * Insere um número no tabuleiro, se for permitido.
+     */
+    public boolean setNumber(int row, int col, Integer value) {
+        if (isValidMove(row, col, value)) {
+            spaces.get(row).get(col).setValue(value);
+            return true;
         }
-
-        space.clearSpace();
-        return true;
+        return false;
     }
 
-    public void reset(){
-        spaces.forEach(c -> c.forEach(Space::clearSpace));
+    /**
+     * Imprime o tabuleiro no terminal.
+     */
+    public void printBoard() {
+        System.out.println("+-------+-------+-------+");
+        for (int i = 0; i < spaces.size(); i++) {
+            System.out.print("| ");
+            for (int j = 0; j < spaces.get(i).size(); j++) {
+                Integer val = spaces.get(i).get(j).getValue();
+                System.out.print((val == null ? "." : val) + " ");
+                if ((j + 1) % 3 == 0) System.out.print("| ");
+            }
+            System.out.println();
+            if ((i + 1) % 3 == 0) System.out.println("+-------+-------+-------+");
+        }
     }
-
-    public boolean gameIsFinished(){
-        return !hasErrors() && getStatus().equals(COMPLETE);
-    }
-
 }
