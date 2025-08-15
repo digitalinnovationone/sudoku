@@ -21,16 +21,16 @@ public class Board {
         return spaces;
     }
 
-    public GameStatusEnum getStatus(){
-        if (spaces.stream().flatMap(Collection::stream).noneMatch(s -> !s.isFixed() && nonNull(s.getActual()))){
+    public GameStatusEnum getStatus() {
+        if (spaces.stream().flatMap(Collection::stream).noneMatch(s -> !s.isFixed() && nonNull(s.getActual()))) {
             return NON_STARTED;
         }
 
         return spaces.stream().flatMap(Collection::stream).anyMatch(s -> isNull(s.getActual())) ? INCOMPLETE : COMPLETE;
     }
 
-    public boolean hasErrors(){
-        if(getStatus() == NON_STARTED){
+    public boolean hasErrors() {
+        if (getStatus() == NON_STARTED) {
             return false;
         }
 
@@ -38,19 +38,48 @@ public class Board {
                 .anyMatch(s -> nonNull(s.getActual()) && !s.getActual().equals(s.getExpected()));
     }
 
-    public boolean changeValue(final int col, final int row, final int value){
+    public MoveResultEnum changeValue(final int col, final int row, final int value) {
         var space = spaces.get(col).get(row);
-        if (space.isFixed()){
-            return false;
+        if (space.isFixed()) {
+            return MoveResultEnum.FIXED_SPACE;
+        }
+
+        if (nonNull(space.getActual()) && space.getActual().equals(value)) {
+            return MoveResultEnum.SUCCESS;
+        }
+
+        for (int i = 0; i < 9; i++) {
+            Space spaceInRow = spaces.get(i).get(row);
+            if (nonNull(spaceInRow.getActual()) && spaceInRow.getActual().equals(value)) {
+                return MoveResultEnum.INVALID_MOVE;
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            Space spaceInCol = spaces.get(col).get(i);
+            if (nonNull(spaceInCol.getActual()) && spaceInCol.getActual().equals(value)) {
+                return MoveResultEnum.INVALID_MOVE;
+            }
+        }
+
+        int startCol = col - col % 3;
+        int startRow = row - row % 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Space spaceInBox = spaces.get(j + startCol).get(i + startRow);
+                if (nonNull(spaceInBox.getActual()) && spaceInBox.getActual().equals(value)) {
+                    return MoveResultEnum.INVALID_MOVE;
+                }
+            }
         }
 
         space.setActual(value);
-        return true;
+        return MoveResultEnum.SUCCESS;
     }
 
-    public boolean clearValue(final int col, final int row){
+    public boolean clearValue(final int col, final int row) {
         var space = spaces.get(col).get(row);
-        if (space.isFixed()){
+        if (space.isFixed()) {
             return false;
         }
 
@@ -58,12 +87,11 @@ public class Board {
         return true;
     }
 
-    public void reset(){
+    public void reset() {
         spaces.forEach(c -> c.forEach(Space::clearSpace));
     }
 
-    public boolean gameIsFinished(){
+    public boolean gameIsFinished() {
         return !hasErrors() && getStatus().equals(COMPLETE);
     }
-
 }
