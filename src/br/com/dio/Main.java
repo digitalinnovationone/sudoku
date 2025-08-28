@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
+
 import static br.com.dio.util.BoardTemplate.BOARD_TEMPLATE;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -23,11 +28,12 @@ public class Main {
     private final static int BOARD_LIMIT = 9;
 
     public static void main(String[] args) {
-        final var positions = Stream.of(args)
-                .collect(toMap(
-                        k -> k.split(";")[0],
-                        v -> v.split(";")[1]
-                ));
+        //final var positions = Stream.of(args)
+        //        .collect(toMap(
+        //                k -> k.split(";")[0],
+        //                v -> v.split(";")[1]
+        //        ));
+        final var positions = loadGameConfig(args);
         var option = -1;
         while (true){
             System.out.println("Selecione uma das opções a seguir");
@@ -55,6 +61,27 @@ public class Main {
             }
         }
     }
+    
+    private static Map<String, String> loadGameConfig(String[] args) {
+        if (args.length == 1) {
+            String filePath = args[0];
+            try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
+                return lines.collect(Collectors.toMap(
+                    k -> k.split(";")[0],
+                    v -> v.split(";")[1]
+                ));
+            } catch (IOException e) {
+                System.err.println("Erro ao carregar o arquivo: " + e.getMessage());
+                return Map.of();
+            }
+        } else {
+            return Stream.of(args)
+                .collect(Collectors.toMap(
+                    k -> k.split(";")[0],
+                    v -> v.split(";")[1]
+                ));
+        }
+    }
 
     private static void startGame(final Map<String, String> positions) {
         if (nonNull(board)){
@@ -66,7 +93,7 @@ public class Main {
         for (int i = 0; i < BOARD_LIMIT; i++) {
             spaces.add(new ArrayList<>());
             for (int j = 0; j < BOARD_LIMIT; j++) {
-                var positionConfig = positions.get("%s,%s".formatted(i, j));
+                var positionConfig = positions.getOrDefault("%s,%s".formatted(i, j), "0,false");
                 var expected = Integer.parseInt(positionConfig.split(",")[0]);
                 var fixed = Boolean.parseBoolean(positionConfig.split(",")[1]);
                 var currentSpace = new Space(expected, fixed);
