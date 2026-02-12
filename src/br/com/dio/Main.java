@@ -1,3 +1,13 @@
+/**
+ * Classe principal para a execucao do Sudoku (DIO Challenge).
+ * Responsavel por inicializar o tabuleiro e processar os argumentos de entrada.
+ * Este projeto foi refatorado para demonstrar boas praticas de versionamento (Git Flow).
+ *
+ * @author Thiago Fernando
+ * @version 1.0 (Feature-Branch)
+ * @since 2026
+ */
+
 package br.com.dio;
 
 import br.com.dio.model.Board;
