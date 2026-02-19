@@ -1,17 +1,14 @@
 package br.com.dio.controller;
 
 import br.com.dio.model.Board;
-
+import br.com.dio.model.MenuOptionEnum;
 import br.com.dio.model.Space;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
-import static br.com.dio.Main.*;
 import static br.com.dio.util.BoardTemplate.*;
 import static br.com.dio.util.Constants.*;
+
+import java.util.*;
+
+
 import static java.util.Objects.*;
 
 /**
@@ -25,8 +22,9 @@ public class SudokuController {
 
     private static Board board;
     private static final Scanner scanner = new Scanner(System.in);
+    public static final int BOARD_LIMIT = 9;
 
-    public static void startGame(final Map<String, String> positions) {
+    private static void startGame(final Map<String, String> positions) {
         if (nonNull(board)){
             System.out.println(JOGO_JA_INICIADO);
             return;
@@ -57,7 +55,7 @@ public class SudokuController {
     }
 
 
-    public static void inputNumber() {
+    private static void inputNumber() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -74,7 +72,7 @@ public class SudokuController {
         }
     }
 
-    public static void removeNumber() {
+    private static void removeNumber() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -89,7 +87,7 @@ public class SudokuController {
         }
     }
 
-    public static void showCurrentGame() {
+    private static void showCurrentGame() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -106,7 +104,7 @@ public class SudokuController {
         System.out.printf((BOARD_TEMPLATE) + "\n", args);
     }
 
-    public static void showGameStatus() {
+    private static void showGameStatus() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -120,7 +118,7 @@ public class SudokuController {
         }
     }
 
-    public static void clearGame() {
+    private static void clearGame() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -138,7 +136,7 @@ public class SudokuController {
         }
     }
 
-    public static void finishGame() {
+    private static void finishGame() {
         if (isNull(board)){
             System.out.println(JOGO_NAO_INICIADO);
             return;
@@ -155,12 +153,43 @@ public class SudokuController {
         }
     }
 
-    public static int runUntilGetValidNumber(final int min, final int max){
+    private static int runUntilGetValidNumber(final int min, final int max){
         var current = scanner.nextInt();
         while (current < min || current > max){
             System.out.printf(INPUT_NUM_ENTRE_MIN_MAX, min, max);
             current = scanner.nextInt();
         }
         return current;
+    }
+
+    public static boolean handleMenuOption(Map<String, String> positions) {
+        MenuOptionEnum option = null;
+        try {
+            var input = scanner.nextInt();
+            option = MenuOptionEnum.fromId(input).orElse(null);
+        } catch (InputMismatchException e) {
+            scanner.next();
+        }
+
+        if (option == null) {
+            System.out.println(OPCAO_INVALIDA);
+            return true;
+        }
+
+        switch (option) {
+            case INICIAR    -> startGame(positions);
+            case ADICIONAR  -> inputNumber();
+            case REMOVER    -> removeNumber();
+            case VISUALIZAR -> showCurrentGame();
+            case STATUS     -> showGameStatus();
+            case LIMPAR     -> clearGame();
+            case FINALIZAR  -> finishGame();
+            case SAIR       -> {
+                System.out.println(ENCERRANDO_O_JOGO);
+                return false;
+            }
+            default -> System.out.println(OPCAO_INVALIDA);
+        }
+        return true;
     }
 }
