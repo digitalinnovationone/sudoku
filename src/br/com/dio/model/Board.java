@@ -1,69 +1,59 @@
 package br.com.dio.model;
 
-import java.util.Collection;
-import java.util.List;
-
-import static br.com.dio.model.GameStatusEnum.COMPLETE;
-import static br.com.dio.model.GameStatusEnum.INCOMPLETE;
-import static br.com.dio.model.GameStatusEnum.NON_STARTED;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 public class Board {
 
-    private final List<List<Space>> spaces;
+    private Space[][] spaces = new Space[9][9];
+    private GameStatusEnum status = GameStatusEnum.NAO_INICIADO;
 
-    public Board(final List<List<Space>> spaces) {
+    public Board(Space[][] spaces) {
         this.spaces = spaces;
+        this.status = GameStatusEnum.EM_ANDAMENTO;
     }
 
-    public List<List<Space>> getSpaces() {
+    public Space[][] getSpaces() {
         return spaces;
     }
 
-    public GameStatusEnum getStatus(){
-        if (spaces.stream().flatMap(Collection::stream).noneMatch(s -> !s.isFixed() && nonNull(s.getActual()))){
-            return NON_STARTED;
-        }
+    public boolean setValue(int row, int col, int value) {
+        if (spaces[row][col].isFixed()) return false;
 
-        return spaces.stream().flatMap(Collection::stream).anyMatch(s -> isNull(s.getActual())) ? INCOMPLETE : COMPLETE;
+        if (isValid(row, col, value)) {
+            spaces[row][col].setValue(value);
+            return true;
+        }
+        return false;
     }
 
-    public boolean hasErrors(){
-        if(getStatus() == NON_STARTED){
-            return false;
+    private boolean isValid(int row, int col, int value) {
+
+        for (int i = 0; i < 9; i++) {
+            if (spaces[row][i].getValue() == value) return false;
+            if (spaces[i][col].getValue() == value) return false;
         }
 
-        return spaces.stream().flatMap(Collection::stream)
-                .anyMatch(s -> nonNull(s.getActual()) && !s.getActual().equals(s.getExpected()));
-    }
+        int startRow = row - row % 3;
+        int startCol = col - col % 3;
 
-    public boolean changeValue(final int col, final int row, final int value){
-        var space = spaces.get(col).get(row);
-        if (space.isFixed()){
-            return false;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (spaces[i][j].getValue() == value) return false;
+            }
         }
 
-        space.setActual(value);
         return true;
     }
 
-    public boolean clearValue(final int col, final int row){
-        var space = spaces.get(col).get(row);
-        if (space.isFixed()){
-            return false;
+    public boolean isComplete() {
+        for (Space[] row : spaces) {
+            for (Space s : row) {
+                if (s.getValue() == 0) return false;
+            }
         }
-
-        space.clearSpace();
+        status = GameStatusEnum.COMPLETO;
         return true;
     }
 
-    public void reset(){
-        spaces.forEach(c -> c.forEach(Space::clearSpace));
+    public GameStatusEnum getStatus() {
+        return status;
     }
-
-    public boolean gameIsFinished(){
-        return !hasErrors() && getStatus().equals(COMPLETE);
-    }
-
 }
