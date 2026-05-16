@@ -5,18 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b89cbf3-0e04-43d5-9838-40235d2f0680" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/com/dio/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/com/dio/model/Board.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/com/dio/model/GameStatusEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/com/dio/model/Space.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/br/com/dio/util/BoardTemplate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sudoku" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/GameStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/GameStatusEnum.java" afterDir="false" />
@@ -90,6 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1778953221099</updated>
       <workItem from="1778953221713" duration="1908000" />
+      <workItem from="1778956441874" duration="16000" />
     </task>
     <servers />
   </component>
