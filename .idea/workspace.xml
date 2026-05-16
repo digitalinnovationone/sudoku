@@ -5,12 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6b89cbf3-0e04-43d5-9838-40235d2f0680" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/sudoku" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/GameStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/GameStatusEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Space.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/model/Space.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sudoku/src/br/com/dio/util/BoardTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/sudoku/src/br/com/dio/util/BoardTemplate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/UIMain.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/model/Board.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/model/GameStatusEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/model/Space.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/service/BoardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/service/EventEnum.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/service/EventListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/service/NotifierService$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/service/NotifierService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/button/CheckGameStatusButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/button/FinishGameButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/button/ResetButton.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/frame/MainFrame.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/input/NumberText$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/input/NumberText.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/input/NumberTextLimit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/panel/MainPanel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/panel/SudokuSector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/screen/MainScreen$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/ui/custom/screen/MainScreen.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/br/com/dio/util/BoardTemplate.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +34,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/sudoku" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -29,27 +45,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UIMain.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.UIMain.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "AlexFallaci",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="UIMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.com.dio.UIMain" />
@@ -80,6 +97,7 @@
       <updated>1778953221099</updated>
       <workItem from="1778953221713" duration="1908000" />
       <workItem from="1778956441874" duration="16000" />
+      <workItem from="1778957031566" duration="46000" />
     </task>
     <servers />
   </component>
